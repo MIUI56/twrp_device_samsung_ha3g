@@ -7,10 +7,6 @@ TARGET_BOOTLOADER_BOARD_NAME := universal5420
 TARGET_BOARD_PLATFORM := exynos5
 TARGET_BOARD_PLATFORM_GPU := mali-t628mp6
 
-# Flags
-TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
-COMMON_GLOBAL_CFLAGS += -DREFRESH_RATE=60 -DNO_SECURE_DISCARD
 
 # Architecture
 TARGET_ARCH := arm
@@ -21,32 +17,34 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
 ARCH_ARM_HAVE_TLS_REGISTER := true
 
-BOARD_KERNEL_CMDLINE :=
+# Kernel
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x01000000 --tags_offset 0x00000100
+TARGET_PREBUILT_KERNEL := device/samsung/ha3g/zImage
 
+# Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE     := 0x000800000
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x000800000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE   := 0x091400000
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x69A3FC000 # 0x69A400000 - 16384 (crypto footer)
 BOARD_CACHEIMAGE_PARTITION_SIZE    := 0x012C00000
 BOARD_FLASH_BLOCK_SIZE := 131072
-
-TARGET_PREBUILT_KERNEL := device/samsung/ha3g/zImage
-
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/exynos-dwc3.0/exynos-ss-udc.0/gadget/lun%d/file"
+LZMA_RAMDISK_TARGETS := recovery
+LZMA_COMPRESSION := -9
 
 # Use this flag if the board has a ext4 partition larger than 2gb
 BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 BOARD_SUPPRESS_SECURE_ERASE := true
-BOARD_CUSTOM_BOOTIMG_MK :=  device/samsung/ha3g/bootimg.mk
+BOARD_CUSTOM_BOOTIMG_MK := device/samsung/ha3g/mkbootimg.mk
 
 # TWRP specific build flags
+RECOVERY_VARIANT := twrp
 TW_THEME := portrait_hdpi
 RECOVERY_SDCARD_ON_DATA := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/devices/platform/exynos-dwc3.0/exynos-ss-udc.0/gadget/lun%d/file"
 BOARD_HAS_NO_REAL_SDCARD := true
 TW_BRIGHTNESS_PATH := "/sys/devices/platform/s5p-mipi-dsim.1/backlight/panel/brightness"
 TW_MAX_BRIGHTNESS := 255
@@ -58,6 +56,6 @@ TW_NO_EXFAT_FUSE := true
 #TW_INCLUDE_NTFS_3G := true
 TW_MTP_DEVICE := "/dev/mtp_usb"
 TW_EXCLUDE_SUPERSU := true
-
-# Asian region language support (disabled, too big!)
-#TW_EXTRA_LANGUAGES := true
+ALLOW_MISSING_DEPENDENCIES=true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+TW_EXTRA_LANGUAGES := true
