@@ -16,8 +16,8 @@ To build:
 ```sh
 . build/envsetup.sh
 lunch omni_ha3g-eng
-make -j5 recoveryimage
+mka recoveryimage
 ```
 
-Kernel sources are available at: https://github.com/jcadduono/android_kernel_samsung_ha3g/tree/twrp-6.0
+Kernel sources are available at: https://github.com/exynos5420/android_kernel_samsung_exynos5420.git
 
